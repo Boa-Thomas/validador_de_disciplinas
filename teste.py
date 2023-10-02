@@ -12,7 +12,7 @@ def read_pdf(file_path):
     return text
 
 def send_to_chatgpt(text, prompt):
-    openai.api_key = "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"
+    openai.api_key = "PLACEHOLDER"
     model_engine = "gpt-4"
     max_tokens = 100
 
@@ -43,10 +43,10 @@ if __name__ == "__main__":
 
             combined_content = f"\n\n".join([f"Ementa {idx+1}:\n{content}" for idx, content in enumerate(pdf_contents)])
 
-            prompt = "O aluno apresentou as ementas das disciplinas e você precisa validar se a disciplina é equivalente ou não. responda apenas com 'sim' ou 'não' e o percentual de equivalência."
+            prompt = "O aluno apresentou as ementas das disciplinas e você precisa validar se a disciplina é equivalente ou não leve em consideração o conteudo apresentado em cada displina e a quantidade de horas. Responda apenas com 'sim' ou 'não' e um percentual de similaridade.\n\n"
 
             summary = send_to_chatgpt(combined_content, prompt)
-            results.append(f"Folder: {subdir}\nSummary: {summary}")
+            results.append(f"Pasta: {subdir}\nResposta: {summary}\n")
 
     print("Results:")
     for result in results:
