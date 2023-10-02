@@ -1,5 +1,6 @@
 from PyPDF2 import PdfReader
 import openai
+import os
 
 def read_pdf(file_path):
     with open(file_path, 'rb') as f:
@@ -12,7 +13,7 @@ def read_pdf(file_path):
 
 def send_to_chatgpt(text, prompt):
     openai.api_key = "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"
-    model_engine = "gpt-4"  # Use "gpt-3.5-turbo" instead of "text-davinci-002"
+    model_engine = "gpt-4"
     max_tokens = 100
 
     response = openai.ChatCompletion.create(
@@ -27,15 +28,26 @@ def send_to_chatgpt(text, prompt):
 
     return response['choices'][0]['message']['content'].strip()
 
-
 if __name__ == "__main__":
-    pdf1_content = read_pdf("Alunos Teste\BLU3702_ProjetoIntegrador_Turma_7754.pdf")
-    pdf2_content = read_pdf("Alunos Teste\CAC3900_ProjetoEspecializado_Turma_9754.pdf")
-    
-    combined_content = f"Ementa 1:\n{pdf1_content}\n\nEmenta 2:\n{pdf2_content}"
-    
-    prompt = "O aluno apresentou as ementas das disciplinas e você precisa validar se a disciplina é equivalente ou não. responda apenas com 'sim' ou 'não' e o percentual de equivalência."
-    
-    summary = send_to_chatgpt(combined_content, prompt)
-    print("Arquivos: " + "BLU3702_ProjetoIntegrador_Turma_7754.pdf" + " e " + "CAC3900_ProjetoEspecializado_Turma_9754.pdf")
-    print(f"Summary: {summary}")
+    results = []
+    root_folder = "Alunos"
+
+    for subdir, _, files in os.walk(root_folder):
+        if files:  # Check if folder contains files
+            pdf_contents = []
+            for file in files:
+                if file.endswith('.pdf'):
+                    pdf_path = os.path.join(subdir, file)
+                    pdf_content = read_pdf(pdf_path)
+                    pdf_contents.append(pdf_content)
+
+            combined_content = f"\n\n".join([f"Ementa {idx+1}:\n{content}" for idx, content in enumerate(pdf_contents)])
+
+            prompt = "O aluno apresentou as ementas das disciplinas e você precisa validar se a disciplina é equivalente ou não. responda apenas com 'sim' ou 'não' e o percentual de equivalência."
+
+            summary = send_to_chatgpt(combined_content, prompt)
+            results.append(f"Folder: {subdir}\nSummary: {summary}")
+
+    print("Results:")
+    for result in results:
+        print(result)
