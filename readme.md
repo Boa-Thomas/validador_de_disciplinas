@@ -23,23 +23,26 @@ Substitua o texto de espaço reservado `"PLACEHOLDER"` pela sua chave API do Ope
 
 ```python
 openai.api_key = "PLACEHOLDER"
+```
 
-##Como Usar
+## Como Usar
 Coloque suas subpastas contendo os arquivos PDF que você deseja avaliar dentro da pasta raiz chamada Alunos. Certifique-se de que cada subpasta represente um pedido único de validação de disciplina.
 
 Ative o ambiente virtual Python no Windows:
 
 ```bash
 .\venv\Scripts\Activate
+```
 
 Execute o script:
 
 ```bash
 python test.py
+```
 
 O script produzirá os resultados, indicando se a disciplina é equivalente e fornecendo uma porcentagem de similaridade.
 
-##Funções
+## Funções
 read_pdf(file_path: str) -> str
 Lê um arquivo PDF e retorna o seu conteúdo textual.
 
