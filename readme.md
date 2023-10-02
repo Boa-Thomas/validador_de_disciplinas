@@ -13,6 +13,7 @@ Este script Python lê automaticamente múltiplos arquivos PDF de várias subpas
 
 1. Clone este repositório.
 2. Instale os pacotes Python necessários usando o pip.
+
     ```bash
     pip install PyPDF2 openai
     ```
@@ -26,6 +27,7 @@ openai.api_key = "PLACEHOLDER"
 ```
 
 ## Como Usar
+
 Coloque suas subpastas contendo os arquivos PDF que você deseja avaliar dentro da pasta raiz chamada Alunos. Certifique-se de que cada subpasta represente um pedido único de validação de disciplina.
 
 Ative o ambiente virtual Python no Windows:
@@ -43,6 +45,7 @@ python test.py
 O script produzirá os resultados, indicando se a disciplina é equivalente e fornecendo uma porcentagem de similaridade.
 
 ## Funções
+
 read_pdf(file_path: str) -> str
 Lê um arquivo PDF e retorna o seu conteúdo textual.
 
