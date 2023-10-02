@@ -47,7 +47,7 @@ def extract_course_info(text):
     return course_info
 
 
-print(read_pdf("Alunos\Aluno Teste 1\BLU3702_ProjetoIntegrador_Turma_7754.pdf"))
+#print(read_pdf("Alunos\Aluno Teste 1\BLU3702_ProjetoIntegrador_Turma_7754.pdf"))
 # Using the function
 #course_info = extract_course_info(textoo)
 #Printing the result

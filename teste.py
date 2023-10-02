@@ -31,8 +31,8 @@ def send_to_chatgpt(text, prompt):
         model=model_engine,
         messages=[
             {"role": "system", "content": "Você é o coordenador do curso de engenharia de controle e automação, um aluno está buscando validar uma disciplina já cursada em outra universidade."},
-            {"role": "user", "content": prompt},
-            {"role": "user", "content": text}
+            {"role": "user", "content": text},
+            {"role": "user", "content": prompt}
         ],
         max_tokens=max_tokens
     )
