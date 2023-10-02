@@ -1,6 +1,8 @@
 from PyPDF2 import PdfReader
 import openai
 import os
+import re
+from pdfreader import extract_course_info
 
 def read_pdf(file_path):
     with open(file_path, 'rb') as f:
@@ -9,7 +11,16 @@ def read_pdf(file_path):
         for page_num in range(len(pdf_reader.pages)):
             page = pdf_reader.pages[page_num]
             text += page.extract_text()
-    return text
+
+    # Extract the file name from the file path
+    file_name = file_path.split("\\")[-1]  # Replace "/" with "\\" if you are on Windows
+
+    # Use regular expression to check the filename pattern
+    if re.match(r"^[a-zA-Z]{3}\d{4}", file_name):
+        return extract_course_info(text)  # If the filename starts with 3 letters followed by 4 numbers, send the text to funcb
+    else:
+        return text  # Otherwise, return the text as is
+
 
 def send_to_chatgpt(text, prompt):
     openai.api_key = "PLACEHOLDER"
@@ -43,7 +54,7 @@ if __name__ == "__main__":
 
             combined_content = f"\n\n".join([f"Ementa {idx+1}:\n{content}" for idx, content in enumerate(pdf_contents)])
 
-            prompt = "O aluno apresentou as ementas das disciplinas e você precisa validar se a disciplina é equivalente ou não leve em consideração o conteudo apresentado em cada displina e a quantidade de horas. Responda apenas com 'sim' ou 'não' e um percentual de similaridade.\n\n"
+            prompt = "Um aluno apresentou as ementas das disciplinas e você precisa verificar se a disciplina é equivalente ou não, leve em consideração o conteudo os objetivos e a carga horaria das disciplinas. Responda APENAS com 'sim' ou 'não' e um percentual de similaridade (Ex: Sim 90%).\n\n"
 
             summary = send_to_chatgpt(combined_content, prompt)
             results.append(f"Pasta: {subdir}\nResposta: {summary}\n")
