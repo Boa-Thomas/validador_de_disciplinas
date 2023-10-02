@@ -25,7 +25,7 @@ def read_pdf(file_path):
 def send_to_chatgpt(text, prompt):
     openai.api_key = "PLACEHOLDER"
     model_engine = "gpt-4"
-    max_tokens = 100
+    max_tokens = 20
 
     response = openai.ChatCompletion.create(
         model=model_engine,
@@ -37,6 +37,7 @@ def send_to_chatgpt(text, prompt):
         max_tokens=max_tokens
     )
 
+    print(f"Tokens used: {response['usage']['total_tokens']}")  # Print the number of tokens used
     return response['choices'][0]['message']['content'].strip()
 
 if __name__ == "__main__":
